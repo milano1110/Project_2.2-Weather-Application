@@ -4,12 +4,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 public class Server {
 
     public static void main(String[] args)
     {
         ServerSocket server = null;
+        ExecutorService threadPool =
+                Executors.newFixedThreadPool(2000);
 
         try {
 
@@ -32,12 +37,12 @@ public class Server {
                         .getHostAddress());
 
                 // create a new thread object
-                ClientHandler clientSock
-                        = new ClientHandler(client);
+                ClientHandler clientSock = new ClientHandler(client);
 
                 // This thread will handle the client
                 // separately
-                new Thread(clientSock).start();
+                //new Thread(clientSock).start();
+                threadPool.execute(new Thread(clientSock));
             }
         }
         catch (IOException e) {
@@ -89,7 +94,7 @@ public class Server {
                 }
             }
             catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client disconnected.");
             }
             finally {
                 try {
@@ -102,7 +107,7 @@ public class Server {
                     }
                 }
                 catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println(e);
                 }
             }
         }

@@ -2,6 +2,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -9,9 +10,38 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 
 public class XMLParser {
 
+    private int stn;
+    private byte frshht;
+    private short wnddir;
+    private long timestamp;
+    private String date, time;
+    private float temp, dewp, stp, slp, visib, wdsp, prcp, sndp, cldc;
+
+    public void parse(String xml) throws ParserConfigurationException, IOException, SAXException {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("MEASUREMENT");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    stn = Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent());
+                }
+            }
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
     public static void parse() throws ParserConfigurationException, IOException, SAXException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -106,9 +136,6 @@ public class XMLParser {
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        XMLParser.parse();
-    }
 }
