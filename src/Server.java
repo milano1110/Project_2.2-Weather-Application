@@ -89,8 +89,8 @@ public class Server {
                 while ((line = in.readLine()) != null) {
 
                     // writing the received message from client
-                    System.out.printf("%s\n", line);
-                    out.println(line);
+                    //System.out.printf("%s\n", line);
+                    //out.println(line);
                 }
             }
             catch (IOException e) {
