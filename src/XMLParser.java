@@ -33,7 +33,11 @@ public class XMLParser {
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    stn = Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent());
+                    setStn(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()));
+                    setFrshht(Byte.parseByte(eElement.getElementsByTagName("FRSHHT").item(0).getTextContent()));
+                    setStn(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()));
+                    setStn(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()));
+
                 }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
@@ -41,101 +45,125 @@ public class XMLParser {
         }
     }
 
-    /*
-    public static void parse() throws ParserConfigurationException, IOException, SAXException {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            //factory.setValidating(true);
-            factory.setIgnoringElementContentWhitespace(true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            File file = new File("./UnwdmiGenerator/output.xml");
-            Document doc = builder.parse(file);
-            doc.getDocumentElement().normalize();
-            System.out.println("Root element : " + doc.getDocumentElement().getNodeName());
-            NodeList nList = doc.getElementsByTagName("MEASUREMENT");
-            System.out.println("----------------------------");
+    // getters
+    public int getStn() {
+        return stn;
+    }
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
-                System.out.println("\nCurrent Element : " + nNode.getNodeName());
+    public byte getFrshht() {
+        return frshht;
+    }
 
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    System.out.println("Station number : "
-                            + eElement
-                            .getElementsByTagName("STN")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Date : "
-                            + eElement
-                            .getElementsByTagName("DATE")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Time : "
-                            + eElement
-                            .getElementsByTagName("TIME")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Temperature : "
-                            + eElement
-                            .getElementsByTagName("TEMP")
-                            .item(0)
-                            .getTextContent() + " C");
-                    System.out.println("Dewpoint : "
-                            + eElement
-                            .getElementsByTagName("DEWP")
-                            .item(0)
-                            .getTextContent() + " C");
-                    System.out.println("Air pressure station level: "
-                            + eElement
-                            .getElementsByTagName("STP")
-                            .item(0)
-                            .getTextContent() + " mbar");
-                    System.out.println("Air pressure sea level : "
-                            + eElement
-                            .getElementsByTagName("SLP")
-                            .item(0)
-                            .getTextContent() + " mbar");
-                    System.out.println("Visibility : "
-                            + eElement
-                            .getElementsByTagName("VISIB")
-                            .item(0)
-                            .getTextContent() + " km");
-                    System.out.println("Windspeed : "
-                            + eElement
-                            .getElementsByTagName("WDSP")
-                            .item(0)
-                            .getTextContent() + " km");
-                    System.out.println("Precipitation : "
-                            + eElement
-                            .getElementsByTagName("PRCP")
-                            .item(0)
-                            .getTextContent() + " cm");
-                    System.out.println("Snowfall : "
-                            + eElement
-                            .getElementsByTagName("SNDP")
-                            .item(0)
-                            .getTextContent() + " cm");
-                    System.out.println("Gebeurtenissen op deze dag, cummulatief, binair uitgedrukt. : "
-                            + eElement
-                            .getElementsByTagName("FRSHTT")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Cloud cover : "
-                            + eElement
-                            .getElementsByTagName("CLDC")
-                            .item(0)
-                            .getTextContent() + " %");
-                    System.out.println("Wind Direction : "
-                            + eElement
-                            .getElementsByTagName("WNDDIR")
-                            .item(0)
-                            .getTextContent() + " degrees");
-                }
-            }
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
-    }*/
+    public short getWnddir() {
+        return wnddir;
+    }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public float getTemp() {
+        return temp;
+    }
+
+    public float getDewp() {
+        return dewp;
+    }
+
+    public float getStp() {
+        return stp;
+    }
+
+    public float getSlp() {
+        return slp;
+    }
+
+    public float getVisib() {
+        return visib;
+    }
+
+    public float getWdsp() {
+        return wdsp;
+    }
+
+    public float getPrcp() {
+        return prcp;
+    }
+
+    public float getSndp() {
+        return sndp;
+    }
+
+    public float getCldc() {
+        return cldc;
+    }
+
+    // setters
+    public void setStn(int stn) {
+        this.stn = stn;
+    }
+
+    public void setFrshht(byte frshht) {
+        this.frshht = frshht;
+    }
+
+    public void setWnddir(short wnddir) {
+        this.wnddir = wnddir;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTemp(float temp) {
+        this.temp = temp;
+    }
+
+    public void setDewp(float dewp) {
+        this.dewp = dewp;
+    }
+
+    public void setStp(float stp) {
+        this.stp = stp;
+    }
+
+    public void setSlp(float slp) {
+        this.slp = slp;
+    }
+
+    public void setVisib(float visib) {
+        this.visib = visib;
+    }
+
+    public void setWdsp(float wdsp) {
+        this.wdsp = wdsp;
+    }
+
+    public void setPrcp(float prcp) {
+        this.prcp = prcp;
+    }
+
+    public void setSndp(float sndp) {
+        this.sndp = sndp;
+    }
+
+    public void setCldc(float cldc) {
+        this.cldc = cldc;
+    }
 }
