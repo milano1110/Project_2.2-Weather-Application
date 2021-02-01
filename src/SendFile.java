@@ -2,33 +2,37 @@ import java.io.*;
 import java.net.Socket;
 
 public class SendFile {
+
     private static DataOutputStream dataOutputStream = null;
     private static DataInputStream dataInputStream = null;
 
     public static void start() {
-        while (true) {
-            try (Socket socket = new
-                    Socket("localhost", 5000)) {
-                dataInputStream = new DataInputStream(socket.getInputStream());
+
+        try (Socket socket = new Socket("localhost", 5000)) {
+
+            while (true) {
+                //dataInputStream = new DataInputStream(socket.getInputStream());
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-                sendFile("./data/data.xml");
+                sendFile();
 
-                dataInputStream.close();
-                dataInputStream.close();
+                //dataInputStream.close();
+                //dataOutputStream.close();
+
                 Thread.sleep(5000);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            //System.out.println("File not found");
         }
     }
 
-    private static void sendFile(String path) throws Exception{
+    private static void sendFile() throws IOException {
         int bytes;
-        if (path != null) {
-            File file = new File(path);
-            FileInputStream fileInputStream = new FileInputStream(file);
+        File file = new File("./data/data.xml");
 
+        if (file.exists()) {
+            FileInputStream fileInputStream = new FileInputStream(file);
             // send file size
             dataOutputStream.writeLong(file.length());
 
@@ -40,6 +44,8 @@ public class SendFile {
             }
             fileInputStream.close();
             file.delete();
+        } else {
+            System.out.println("No file found");
         }
     }
 }

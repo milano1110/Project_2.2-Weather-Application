@@ -8,6 +8,7 @@ public class WriteToXML {
 
     public WriteToXML(String xml) {
         try {
+
             FileWriter fileWriter = new FileWriter(filepath, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             PrintWriter printWriter = new PrintWriter(bufferedWriter);
@@ -16,7 +17,7 @@ public class WriteToXML {
             printWriter.close();
 
         } catch (Exception e) {
-            System.out.println(xml + " niet verstuurd!");
+            e.printStackTrace();
         }
     }
 }

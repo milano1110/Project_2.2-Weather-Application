@@ -1,6 +1,4 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -15,25 +13,27 @@ public class ReceiveFile {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println(clientSocket + " connected.");
-                if (dataInputStream != null) {
-                    dataInputStream = new DataInputStream(clientSocket.getInputStream());
-                    dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
 
-                    receiveFile("./receive/data.xml");
+                dataInputStream = new DataInputStream(clientSocket.getInputStream());
+                dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
 
-                    dataInputStream.close();
-                    dataOutputStream.close();
-                    clientSocket.close();
-                }
+                receiveFile();
+
+                //dataInputStream.close();
+                //dataOutputStream.close();
+                //clientSocket.close();
+
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             System.out.println("No file received");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private static void receiveFile(String fileName) throws Exception{
+    private static void receiveFile() throws IOException {
         int bytes;
-        FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+        FileOutputStream fileOutputStream = new FileOutputStream("./receive/data.xml");
 
         long size = dataInputStream.readLong();     // read file size
         byte[] buffer = new byte[4*1024];
