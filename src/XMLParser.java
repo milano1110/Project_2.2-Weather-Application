@@ -29,19 +29,26 @@ public class XMLParser {
             doc.getDocumentElement().normalize();
             NodeList nList = doc.getElementsByTagName("MEASUREMENT");
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node nNode = nList.item(i);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    setStn(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()));
-                    setFrshht(Byte.parseByte(eElement.getElementsByTagName("FRSHHT").item(0).getTextContent()));
-                    setStn(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()));
-                    setStn(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()));
+                    if (HashMapCountries.getSTN(
+                            Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()))) {
+
+                    }
 
                 }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void checkTemp() {
+        if (getTemp() < 0) {
+
+
         }
     }
 
