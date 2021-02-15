@@ -14,13 +14,6 @@ import java.io.StringReader;
 
 public class XMLParser {
 
-    private int stn;
-    private byte frshht;
-    private short wnddir;
-    private long timestamp;
-    private String date, time;
-    private float temp, dewp, stp, slp, visib, wdsp, prcp, sndp, cldc;
-
     public void parse(String xml) throws ParserConfigurationException, IOException, SAXException {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -35,9 +28,10 @@ public class XMLParser {
                     Element eElement = (Element) nNode;
                     if (HashMapCountries.getSTN(
                             Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()))) {
+                        if (Integer.parseInt(eElement.getElementsByTagName("TEMP").item(0).getTextContent()) < 0) {
 
+                        }
                     }
-
                 }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
@@ -45,132 +39,4 @@ public class XMLParser {
         }
     }
 
-    public void checkTemp() {
-        if (getTemp() < 0) {
-
-
-        }
-    }
-
-    // getters
-    public int getStn() {
-        return stn;
-    }
-
-    public byte getFrshht() {
-        return frshht;
-    }
-
-    public short getWnddir() {
-        return wnddir;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public float getTemp() {
-        return temp;
-    }
-
-    public float getDewp() {
-        return dewp;
-    }
-
-    public float getStp() {
-        return stp;
-    }
-
-    public float getSlp() {
-        return slp;
-    }
-
-    public float getVisib() {
-        return visib;
-    }
-
-    public float getWdsp() {
-        return wdsp;
-    }
-
-    public float getPrcp() {
-        return prcp;
-    }
-
-    public float getSndp() {
-        return sndp;
-    }
-
-    public float getCldc() {
-        return cldc;
-    }
-
-    // setters
-    public void setStn(int stn) {
-        this.stn = stn;
-    }
-
-    public void setFrshht(byte frshht) {
-        this.frshht = frshht;
-    }
-
-    public void setWnddir(short wnddir) {
-        this.wnddir = wnddir;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public void setTemp(float temp) {
-        this.temp = temp;
-    }
-
-    public void setDewp(float dewp) {
-        this.dewp = dewp;
-    }
-
-    public void setStp(float stp) {
-        this.stp = stp;
-    }
-
-    public void setSlp(float slp) {
-        this.slp = slp;
-    }
-
-    public void setVisib(float visib) {
-        this.visib = visib;
-    }
-
-    public void setWdsp(float wdsp) {
-        this.wdsp = wdsp;
-    }
-
-    public void setPrcp(float prcp) {
-        this.prcp = prcp;
-    }
-
-    public void setSndp(float sndp) {
-        this.sndp = sndp;
-    }
-
-    public void setCldc(float cldc) {
-        this.cldc = cldc;
-    }
 }
