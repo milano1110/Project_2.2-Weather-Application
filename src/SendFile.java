@@ -4,32 +4,26 @@ import java.net.Socket;
 public class SendFile {
 
     private static DataOutputStream dataOutputStream = null;
-    private static DataInputStream dataInputStream = null;
 
     public static void start() {
 
         try (Socket socket = new Socket("localhost", 5000)) {
 
             while (true) {
-                //dataInputStream = new DataInputStream(socket.getInputStream());
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
                 sendFile();
-
-                //dataInputStream.close();
-                //dataOutputStream.close();
 
                 Thread.sleep(5000);
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            //System.out.println("File not found");
         }
     }
 
     private static void sendFile() throws IOException {
         int bytes;
-        File file = new File("./data/data.xml");
+        File file = new File("./send/data.csv");
 
         if (file.exists()) {
             FileInputStream fileInputStream = new FileInputStream(file);

@@ -14,7 +14,10 @@ import java.io.StringReader;
 
 public class XMLParser {
 
-    public void parse(String xml) throws ParserConfigurationException, IOException, SAXException {
+    static StringBuilder sb = new StringBuilder();
+
+    public XMLParser(String xml) {
+        new HashMapCountries();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -28,15 +31,39 @@ public class XMLParser {
                     Element eElement = (Element) nNode;
                     if (HashMapCountries.getSTN(
                             Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()))) {
-                        if (Integer.parseInt(eElement.getElementsByTagName("TEMP").item(0).getTextContent()) < 0) {
-
+                        if (Float.parseFloat(eElement.getElementsByTagName("TEMP").item(0).getTextContent()) < 0) {
+                            sendData(eElement.getElementsByTagName("STN").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("DATE").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("TIME").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("TEMP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("DEWP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("STP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("SLP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("VISIB").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("WDSP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("PRCP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("SNDP").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("FRSHTT").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("CLDC").item(0).getTextContent(),
+                                    eElement.getElementsByTagName("WNDDIR").item(0).getTextContent(),
+                                    HashMapCountries.getCountry(Integer
+                                            .parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent())));
                         }
                     }
                 }
             }
+            new WriteToCSV(sb.toString());
+            sb = new StringBuilder();
+
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void sendData(String stn, String date, String time, String temp, String dewp, String stp, String slp,
+                                String visib, String wdsp, String prcp, String sndp, String frshtt, String cldc, String wnddir,  String country) {
+        sb.append(stn + "," + "," + date + "," + time + "," + temp + "," + dewp + "," + stp + "," + slp + "," + visib + ","
+                + wdsp + "," + prcp + "," + sndp + "," + frshtt + "," + cldc + "," + wnddir + "," + country + "," + "\r\n");
     }
 
 }

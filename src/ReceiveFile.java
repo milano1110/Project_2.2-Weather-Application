@@ -3,7 +3,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ReceiveFile {
-    private static DataOutputStream dataOutputStream = null;
     private static DataInputStream dataInputStream = null;
 
     public static void main(String[] args) {
@@ -15,14 +14,8 @@ public class ReceiveFile {
                 System.out.println(clientSocket + " connected.");
 
                 dataInputStream = new DataInputStream(clientSocket.getInputStream());
-                dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
 
                 receiveFile();
-
-                //dataInputStream.close();
-                //dataOutputStream.close();
-                //clientSocket.close();
-
             }
         } catch (FileNotFoundException e) {
             System.out.println("No file received");
@@ -33,7 +26,7 @@ public class ReceiveFile {
 
     private static void receiveFile() throws IOException {
         int bytes;
-        FileOutputStream fileOutputStream = new FileOutputStream("./receive/data.xml");
+        FileOutputStream fileOutputStream = new FileOutputStream("./receive/data.csv");
 
         long size = dataInputStream.readLong();     // read file size
         byte[] buffer = new byte[4*1024];
