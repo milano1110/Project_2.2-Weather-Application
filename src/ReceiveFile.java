@@ -26,7 +26,7 @@ public class ReceiveFile {
 
     private static void receiveFile() throws IOException {
         int bytes;
-        FileOutputStream fileOutputStream = new FileOutputStream("./receive/data.csv");
+        FileOutputStream fileOutputStream = new FileOutputStream("receive/data.csv");
 
         long size = dataInputStream.readLong();     // read file size
         byte[] buffer = new byte[4*1024];

@@ -13,7 +13,6 @@ public class WriteToCSV {
 			pw.println(stn);
 			pw.flush();
 			pw.close();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

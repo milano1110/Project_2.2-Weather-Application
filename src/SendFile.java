@@ -8,22 +8,17 @@ public class SendFile {
     public static void start() {
 
         try (Socket socket = new Socket("localhost", 5000)) {
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-            while (true) {
-                dataOutputStream = new DataOutputStream(socket.getOutputStream());
-
-                sendFile();
-
-                Thread.sleep(5000);
-            }
-        } catch (IOException | InterruptedException e) {
+            sendFile();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static void sendFile() throws IOException {
         int bytes;
-        File file = new File("./send/data.csv");
+        File file = new File("send/data.csv");
 
         if (file.exists()) {
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -36,6 +31,7 @@ public class SendFile {
                 dataOutputStream.write(buffer, 0, bytes);
                 dataOutputStream.flush();
             }
+            System.out.println("File succesfully send");
             fileInputStream.close();
             file.delete();
         } else {

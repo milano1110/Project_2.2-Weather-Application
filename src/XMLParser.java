@@ -8,13 +8,17 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
 public class XMLParser {
 
-    static StringBuilder sb = new StringBuilder();
+    static StringBuilder sb = new StringBuilder("STN,DATE,TIME,COUNTRY,TEMP,DEWP,STP,SLP,VISIB,WDSP,PRCP,SNDP,FRSHTT,CLDC,WNDDIR\r\n");
 
     public XMLParser(String xml) {
         new HashMapCountries();
@@ -29,12 +33,12 @@ public class XMLParser {
                 Node nNode = nList.item(i);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    if (HashMapCountries.getSTN(
-                            Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()))) {
+                    if (HashMapCountries.getSTN(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent()))) {
                         if (Float.parseFloat(eElement.getElementsByTagName("TEMP").item(0).getTextContent()) < 0) {
                             sendData(eElement.getElementsByTagName("STN").item(0).getTextContent(),
                                     eElement.getElementsByTagName("DATE").item(0).getTextContent(),
                                     eElement.getElementsByTagName("TIME").item(0).getTextContent(),
+                                    HashMapCountries.getCountry(Integer.parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent())),
                                     eElement.getElementsByTagName("TEMP").item(0).getTextContent(),
                                     eElement.getElementsByTagName("DEWP").item(0).getTextContent(),
                                     eElement.getElementsByTagName("STP").item(0).getTextContent(),
@@ -45,25 +49,22 @@ public class XMLParser {
                                     eElement.getElementsByTagName("SNDP").item(0).getTextContent(),
                                     eElement.getElementsByTagName("FRSHTT").item(0).getTextContent(),
                                     eElement.getElementsByTagName("CLDC").item(0).getTextContent(),
-                                    eElement.getElementsByTagName("WNDDIR").item(0).getTextContent(),
-                                    HashMapCountries.getCountry(Integer
-                                            .parseInt(eElement.getElementsByTagName("STN").item(0).getTextContent())));
+                                    eElement.getElementsByTagName("WNDDIR").item(0).getTextContent());
                         }
                     }
                 }
             }
             new WriteToCSV(sb.toString());
-            sb = new StringBuilder();
+            sb = new StringBuilder("STN,DATE,TIME,COUNTRY,TEMP,DEWP,STP,SLP,VISIB,WDSP,PRCP,SNDP,FRSHTT,CLDC,WNDDIR\r\n");
 
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
     }
 
-    public static void sendData(String stn, String date, String time, String temp, String dewp, String stp, String slp,
-                                String visib, String wdsp, String prcp, String sndp, String frshtt, String cldc, String wnddir,  String country) {
-        sb.append(stn + "," + "," + date + "," + time + "," + temp + "," + dewp + "," + stp + "," + slp + "," + visib + ","
-                + wdsp + "," + prcp + "," + sndp + "," + frshtt + "," + cldc + "," + wnddir + "," + country + "," + "\r\n");
+    public static void sendData(String stn, String date, String time, String country, String temp, String dewp, String stp, String slp,
+                                String visib, String wdsp, String prcp, String sndp, String frshtt, String cldc, String wnddir) {
+        sb.append(stn + "," + date + "," + time + "," + country + "," + temp + "," + dewp + "," + stp + "," + slp + "," + visib + ","
+                + wdsp + "," + prcp + "," + sndp + "," + frshtt + "," + cldc + "," + wnddir + "\r\n");
     }
-
 }
