@@ -23,4 +23,4 @@ unwdmi_mysql.sql                Database dump voor MySQL, gemaakt met
                                 MySQL 5.1.28-rc-community.
 unwdmi_postgresql.backup        Database dump voor PostgreSQL, gemaakt met
                                 pgAdmin III 1.8.0 i.cm.
-                                PostgreSQL Database Server 8.3-beta3.
+                                PostgreSQL Database server.Server 8.3-beta3.
