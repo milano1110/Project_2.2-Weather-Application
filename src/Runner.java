@@ -41,7 +41,7 @@ public class Runner {
 					long endTime = System.currentTimeMillis();
 					System.out.println("That took " + (endTime - startTime) + " miliseconds");
 
-					//SendFile.start();
+					SendFile.start();
 
 					Thread.sleep(5000);
 				} catch (FileNotFoundException ex) {

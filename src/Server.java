@@ -4,17 +4,16 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public class Server {
 
-    public static void runServer() {
+    public static void main(String[] args) {
         ExecutorService threadPool =
                 Executors.newFixedThreadPool(1000);
 
         try (ServerSocket server = new ServerSocket(7789)) {
 
             server.setReuseAddress(true);
-            //Runner.start();
+            //XMLHandler.Runner.start();
 
             // running infinite loop for getting client request
             while (true) {
