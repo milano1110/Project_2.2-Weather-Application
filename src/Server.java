@@ -14,7 +14,7 @@ public class Server {
         try (ServerSocket server = new ServerSocket(7789)) {
 
             server.setReuseAddress(true);
-            Runner.start();
+            //Runner.start();
 
             // running infinite loop for getting client request
             while (true) {

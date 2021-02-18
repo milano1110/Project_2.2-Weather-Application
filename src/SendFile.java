@@ -38,12 +38,4 @@ public class SendFile {
             System.out.println("No file found");
         }
     }
-
-    public static boolean fileSend() {
-        boolean fileSend = false;
-        if (!file.exists()) {
-            fileSend = true;
-        }
-        return fileSend;
-    }
 }
