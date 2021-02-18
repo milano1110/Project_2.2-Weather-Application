@@ -3,6 +3,7 @@ import java.net.Socket;
 
 public class SendFile {
 
+    private static final File file = new File("send/data.csv");
     private static DataOutputStream dataOutputStream = null;
 
     public static void start() {
@@ -12,13 +13,12 @@ public class SendFile {
 
             sendFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Unable to connect to server");
         }
     }
 
     private static void sendFile() throws IOException {
         int bytes;
-        File file = new File("send/data.csv");
 
         if (file.exists()) {
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -37,5 +37,13 @@ public class SendFile {
         } else {
             System.out.println("No file found");
         }
+    }
+
+    public static boolean fileSend() {
+        boolean fileSend = false;
+        if (!file.exists()) {
+            fileSend = true;
+        }
+        return fileSend;
     }
 }

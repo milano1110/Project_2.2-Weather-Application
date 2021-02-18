@@ -14,6 +14,7 @@ public class Server {
         try (ServerSocket server = new ServerSocket(7789)) {
 
             server.setReuseAddress(true);
+            Runner.start();
 
             // running infinite loop for getting client request
             while (true) {
@@ -59,8 +60,7 @@ public class Server {
                     new WriteToXML(result.toString());
                     result = new ByteArrayOutputStream();
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println("Client disconnected.");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -68,4 +68,3 @@ public class Server {
         }
     }
 }
-
