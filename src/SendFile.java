@@ -7,7 +7,7 @@ public class SendFile {
 
     public static void start() {
 
-        try (Socket socket = new Socket("localhost", 5000)) {
+        try (Socket socket = new Socket("10.0.6.4", 5000)) {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
             sendFile();
