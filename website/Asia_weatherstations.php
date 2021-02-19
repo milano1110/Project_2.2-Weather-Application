@@ -1,15 +1,3 @@
-<?php
-
-//Start de sessie
-session_start();
-
-//Check of de gebruiker is ingelogd
-if(!isset($_SESSION['UserData']['Username'])){
-    header("location:login.php");
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,21 +10,24 @@ if(!isset($_SESSION['UserData']['Username'])){
     <a href="WeerGrafiek.php">Home</a>
     <a class="active" href="Asia_weatherstations.php">All Asia weatherstations</a>
     <a href="Top_10_Weather.php">Top 10 Weatherstations</a>
-    <a href="1548769538143-695.xml" download>Download</a>
+    <a href="XML/output.xml" download>Download</a>
     <a style = left: 0 href="logout.php">Logout</a>
 </div>
 <body>
 <h2>All stations in Asia below 0 C</h2>
 
 <?php
-
+include "converter.php";
+convertCsvToXmlFile("./CSV/data.csv","./XML/output.xml");
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 //Open XML
-$xml=simplexml_load_file("1548769538143-695.xml") or die("Error: Cannot create object");
+$xml=simplexml_load_file("./XML/output.xml") or die("Error: Cannot create object");
 
 //Maak arrays voor alle typen data aan
 $temp = $xml->xpath("/WEATHERDATA/MEASUREMENT/TEMP");
+
+$coun = $xml->xpath("/WEATHERDATA/MEASUREMENT/COUNTRY");
 
 $stn = $xml->xpath("/WEATHERDATA/MEASUREMENT/STN");
 
@@ -65,6 +56,12 @@ $cldc = $xml->xpath("/WEATHERDATA/MEASUREMENT/CLDC");
 $wnddir = $xml->xpath("/WEATHERDATA/MEASUREMENT/WNDDIR");
 
 //Plaats data van XML in de bijbehorende array
+$counarray = [];
+
+for ($i = 0; $i < count($coun); $i++) {
+    array_push($counarray, $coun[$i][0]);
+}
+
 $temparray = [];
 
 for ($i = 0; $i < count($temp); $i++) {
@@ -155,17 +152,9 @@ $data = [];
 //Plaats alle data in de juiste volgorde in de array
 for ($i = 0; $i < count($stnarray); $i++) {
     $data[$i] = [];
-    array_push($data[$i], $stnarray[$i], $datearray[$i], $timearray[$i], $temparray[$i], $dewparray[$i], $stparray[$i],
+    array_push($data[$i], $stnarray[$i], $datearray[$i], $timearray[$i], $counarray[$i], $temparray[$i], $dewparray[$i], $stparray[$i],
         $slparray[$i], $visibarray[$i], $wdsparray[$i], $prcparray[$i], $sndparray[$i], $frshttarray[$i], $cldcarray[$i],
         $wnddirarray[$i]);
-}
-
-//Verwijder stations waar de temperatuur 0.0 of hoger is
-for ($i = 0; $i < count($data); $i++) {
-    $x = 0;
-    if ($data[$i][$x+3] >= 0.0) {
-        unset($data[$i]);
-    }
 }
 ?>
 <link rel="stylesheet" href="css/style.css">
@@ -174,6 +163,7 @@ for ($i = 0; $i < count($data); $i++) {
         <th>Station</th>
         <th>Date</th>
         <th>Time</th>
+        <th>Country</th>
         <th>Temperature</th>
         <th>Dewpoint</th>
         <th>STP</th>
@@ -208,6 +198,7 @@ for ($i = 0; $i < count($data); $i++) {
                 <th><?php echo $data[$i][$x + 11] ?></th>
                 <th><?php echo $data[$i][$x + 12] ?></th>
                 <th><?php echo $data[$i][$x + 13] ?></th>
+                <th><?php echo $data[$i][$x + 14] ?></th>
             </tr>
 
         <?php
