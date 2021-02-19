@@ -1,5 +1,5 @@
 <?php
-
+include "converter.php";
 //Start de sessie
 session_start();
 
@@ -22,13 +22,16 @@ if(!isset($_SESSION['UserData']['Username'])){
     <a href="WeerGrafiek.php">Home</a>
     <a href="Asia_weatherstations.php">All Asia weatherstations</a>
     <a class="active" href="Top_10_Weather.php">Top 10 Weatherstations</a>
-    <a href="1548769538143-695.xml" download>Download</a>
+    <a href="XML/output.xml" download>Download</a>
     <a style = left: 0 href="logout.php">Logout</a>
 </div>
 <body>
 <h2>Top 10 coldest stations in C</h2>
 <?php
-$xml=simplexml_load_file("1548769538143-695.xml") or die("Error: Cannot create object");
+//Call function converter.php
+convertCsvToXmlFile("C:/xampp/htdocs/project/Project_Weer/CSV/data.csv","C:/xampp/htdocs/project/Project_Weer/XML/output.xml");
+//Load XML file
+$xml=simplexml_load_file("C:/xampp/htdocs/Project/Project_Weer/XML/output.xml") or die("Error: Cannot create object");
 
 //Ophalen temperatuur
 $temp = $xml->xpath("/WEATHERDATA/MEASUREMENT/TEMP");
@@ -36,49 +39,57 @@ $temp = $xml->xpath("/WEATHERDATA/MEASUREMENT/TEMP");
 //Ophalen station
 $stn = $xml->xpath("/WEATHERDATA/MEASUREMENT/STN");
 
-//Array voor temperaturen
-$temparray = [];
+//Ophalen Landen
+$coun = $xml->xpath("/WEATHERDATA/MEASUREMENT/COUNTRY");
 
-//Plaats temperaturen in een Array
-for ($i = 0; $i < count($temp); $i++) {
-    array_push($temparray, $temp[$i][0]);
-}
+$data = array();
 
-//Array voor stations
-$stnarray = [];
-
-//Plaats stations in een array
+//Voeg alle data aan multidimensionaal array toe
 for ($i = 0; $i < count($stn); $i++) {
-    array_push($stnarray, $stn[$i][0]);
+    $stn_n = $stn[$i][0];
+    $coun_n = $coun[$i][0];
+    $temp_n = $temp[$i][0];
+
+    array_push($data, [$stn_n, $coun_n, $temp_n]);
+
 }
+//Maak array uniek
+$tempArr = array_unique(array_column($data, 0));
+//Computes the intersection of arrays using keys for comparison
+$data = array_intersect_key($data, $tempArr);
+//Temp sorteren
+function compareTemp($a, $b)
+{
+    return (floatval($a[2]) - floatval($b[2])) <=> 0;
+}
+usort($data, 'compareTemp');
 
-//Voeg stations en temperaturen bij elkaar met station als key
-$zooi = array_combine($stnarray, $temparray);
 
-//Sorteer van laag naar hoog
-asort($zooi, SCANDIR_SORT_DESCENDING);
-
-//Verijder alles in de array zodat je de eerste 10 overhoud
-$zooi2 = array_slice($zooi, 0, 10, true);
 ?>
-<table style="width:80%">
+<link rel="stylesheet" href="css/style.css">
+<table style="width: 95%">
     <tr>
         <th>Station</th>
+        <th>Land</th>
         <th>Temperature</th>
     </tr>
-<?php
-//Plaats de data in een tabel
-foreach($zooi2 as $key => $val) {
-    ?>
-
-        <tr>
-            <th><?php echo $key?></th>
-            <th><?php echo $val?></th>
-        </tr>
-
     <?php
-}
-?>
+    //Plaats de data in een tabel met 10 lijnen
+    for ($i = 0; $i < 10; $i++) {
+        if (!empty($data[$i])) {
+            ?>
+
+            <tr>
+                <th><?php echo $data[$i][0] ?></th>
+                <th><?php echo $data[$i][1] ?></th>
+                <th><?php echo $data[$i][2] ?></th>
+
+            </tr>
+
+            <?php
+        }
+    }
+    ?>
 </table>
 </body>
 </html>

@@ -30,8 +30,8 @@ if(!isset($_SESSION['UserData']['Username'])){
     <p>Hello and welcome to the weather application.</p>
     <p>Below is a description of the different pages of this application:</p>
     <p>
-        - All Asia weatherstations: This page displays all the weather data of the stations in Asia with a minimum temperatures below 0 degrees Celsius, per day<br>
-        - Top 10 Weatherstations: A top 10 of the stations in Asia with the lowest temperature per day
+        - All Asia weatherstations: This page displays all the weather data of the stations in Asia with a minimum temperatures below 0 degrees Celsius.<br>
+        - Top 10 Weatherstations: A top 10 of the stations in Asia with the lowest temperature.
     </p>
 
 </div>
