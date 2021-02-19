@@ -2,6 +2,7 @@ import java.util.HashMap;
 
 public class HashMapCountries {
 	@SuppressWarnings("serial")
+	// A HashMap with all the weather stations in Asia
 	static HashMap<Integer, String> hmap = new HashMap<>() {{
 		put(409480, "AFGHANISTAN");
 

@@ -5,10 +5,16 @@ import java.net.Socket;
 public class ReceiveFile {
     private static DataInputStream dataInputStream = null;
 
+    /**
+     * The main method for the ReceiveFile server
+     * @param args
+     */
     public static void main(String[] args) {
+        // tries to open port 5000
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
             System.out.println("Listening to port: 5000");
 
+            // infinite loop for receiving client requests
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println(clientSocket + " connected.");
@@ -24,6 +30,10 @@ public class ReceiveFile {
         }
     }
 
+    /**
+     * Receives a file from the client
+     * @throws IOException throws when there is no file found
+     */
     private static void receiveFile() throws IOException {
         int bytes;
         FileOutputStream fileOutputStream = new FileOutputStream("receive/data.csv");

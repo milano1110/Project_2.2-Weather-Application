@@ -3,11 +3,15 @@ import java.net.Socket;
 
 public class SendFile {
 
+    // finds the file in the specified path
     private static final File file = new File("send/data.csv");
     private static DataOutputStream dataOutputStream = null;
 
+    /**
+     * Starts the SendFile process
+     */
     public static void start() {
-
+        // tries to connect to the ReceiveFile server
         try (Socket socket = new Socket("10.0.6.4", 5000)) {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
@@ -17,6 +21,10 @@ public class SendFile {
         }
     }
 
+    /**
+     * Sends the file in chunks to the receive server
+     * @throws IOException throws if there is no file found
+     */
     private static void sendFile() throws IOException {
         int bytes;
 
@@ -33,6 +41,7 @@ public class SendFile {
             }
             System.out.println("File succesfully send");
             fileInputStream.close();
+            // deletes the file from the input folder when it has send it succesfully
             file.delete();
         } else {
             System.out.println("No file found");
