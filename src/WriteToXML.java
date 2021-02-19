@@ -2,7 +2,7 @@ import java.io.*;
 
 public class WriteToXML {
 
-    String filepath = "/Project_2.2-Weather-Application/data/data.xml";
+    String filepath = "data/data.xml";
 
     public WriteToXML(String xml) {
         try {

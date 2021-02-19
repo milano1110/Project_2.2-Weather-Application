@@ -4,7 +4,7 @@ public class Runner {
 
 	public static void main(String[] args) {
 
-		File file = new File("/Project_2.2-Weather-Application/data/data.xml");
+		File file = new File("data/data.xml");
 		new HashMapCountries();
 		StringBuilder xml = new StringBuilder();
 
