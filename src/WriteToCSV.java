@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 public class WriteToCSV {
+
 	String filepath = "send/data.csv";
 
 	public WriteToCSV(String stn) {

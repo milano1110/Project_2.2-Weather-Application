@@ -20,10 +20,7 @@ public class Runner {
 					FileReader fileReader = new FileReader(file);
 					BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-					xml.append("""
-							<?xml version="1.0"?>\r
-							<WEATHERDATA>\r
-							""");
+					xml.append("<?xml version=\"1.0\"?>\r\n" + "<WEATHERDATA>\r\n");
 
 					String line;
 					while ((line = bufferedReader.readLine()) != null) {
@@ -41,7 +38,7 @@ public class Runner {
 					long endTime = System.currentTimeMillis();
 					System.out.println("That took " + (endTime - startTime) + " miliseconds");
 
-					//SendFile.start();
+					SendFile.start();
 
 					Thread.sleep(5000);
 				} catch (FileNotFoundException ex) {
