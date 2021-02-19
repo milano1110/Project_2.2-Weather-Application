@@ -45,6 +45,7 @@ if(isset($_POST['Submit'])){
         <label>
             <b>Username</b>
             <?php if(isset($msg)){
+             //Echo string message
              echo $msg;
                 } ?>
         </label>

@@ -28,9 +28,10 @@ if(!isset($_SESSION['UserData']['Username'])){
 <body>
 <h2>Top 10 coldest stations in C</h2>
 <?php
-convertCsvToXmlFile("./CSV/data.csv","./XML/output.xml");
-
-$xml=simplexml_load_file("./XML/output.xml") or die("Error: Cannot create object");
+//Call function converter.php
+convertCsvToXmlFile("C:/xampp/htdocs/project/Project_Weer/CSV/data.csv","C:/xampp/htdocs/project/Project_Weer/XML/output.xml");
+//Load XML file
+$xml=simplexml_load_file("C:/xampp/htdocs/Project/Project_Weer/XML/output.xml") or die("Error: Cannot create object");
 
 //Ophalen temperatuur
 $temp = $xml->xpath("/WEATHERDATA/MEASUREMENT/TEMP");
@@ -43,7 +44,7 @@ $coun = $xml->xpath("/WEATHERDATA/MEASUREMENT/COUNTRY");
 
 $data = array();
 
-//Voeg stations en temperaturen bij elkaar met station als key
+//Voeg alle data aan multidimensionaal array toe
 for ($i = 0; $i < count($stn); $i++) {
     $stn_n = $stn[$i][0];
     $coun_n = $coun[$i][0];
@@ -52,16 +53,18 @@ for ($i = 0; $i < count($stn); $i++) {
     array_push($data, [$stn_n, $coun_n, $temp_n]);
 
 }
+//Maak array uniek
 $tempArr = array_unique(array_column($data, 0));
+//Computes the intersection of arrays using keys for comparison
 $data = array_intersect_key($data, $tempArr);
-
+//Temp sorteren
 function compareTemp($a, $b)
 {
     return (floatval($a[2]) - floatval($b[2])) <=> 0;
 }
 usort($data, 'compareTemp');
 
-//Verwijder alles in de array zodat je de eerste 10 overhoud
+
 ?>
 <link rel="stylesheet" href="css/style.css">
 <table style="width: 95%">
@@ -71,7 +74,7 @@ usort($data, 'compareTemp');
         <th>Temperature</th>
     </tr>
     <?php
-    //Plaats de data in een tabel
+    //Plaats de data in een tabel met 10 lijnen
     for ($i = 0; $i < 10; $i++) {
         if (!empty($data[$i])) {
             ?>

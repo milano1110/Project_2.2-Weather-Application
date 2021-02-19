@@ -18,11 +18,12 @@
 
 <?php
 include "converter.php";
-convertCsvToXmlFile("./CSV/data.csv","./XML/output.xml");
+//Call function converter.php
+convertCsvToXmlFile("C:/xampp/htdocs/project/Project_Weer/CSV/data.csv","C:/xampp/htdocs/project/Project_Weer/XML/output.xml");
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 //Open XML
-$xml=simplexml_load_file("./XML/output.xml") or die("Error: Cannot create object");
+$xml=simplexml_load_file("C:/xampp/htdocs/Project/Project_Weer/XML/output.xml") or die("Error: Cannot create object");
 
 //Maak arrays voor alle typen data aan
 $temp = $xml->xpath("/WEATHERDATA/MEASUREMENT/TEMP");

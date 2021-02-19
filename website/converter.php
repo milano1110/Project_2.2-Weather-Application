@@ -35,3 +35,4 @@ function convertCsvToXmlFile($input_file, $output_file) {
     fwrite($handle, $strxml);
     fclose($handle);
 }
+convertCsvToXmlFile("C:/xampp/htdocs/project/Project_Weer/CSV/data.csv","C:/xampp/htdocs/project/Project_Weer/XML/output.xml");
