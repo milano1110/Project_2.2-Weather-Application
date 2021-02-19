@@ -1,13 +1,10 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class Runner {
 
 	public static void main(String[] args) {
 
-		File file = new File("data/data.xml");
+		File file = new File("/Project_2.2-Weather-Application/data/data.xml");
 		new HashMapCountries();
 		StringBuilder xml = new StringBuilder();
 

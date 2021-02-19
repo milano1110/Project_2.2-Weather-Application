@@ -1,10 +1,8 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class WriteToXML {
 
-    String filepath = "data/data.xml";
+    String filepath = "/Project_2.2-Weather-Application/data/data.xml";
 
     public WriteToXML(String xml) {
         try {
